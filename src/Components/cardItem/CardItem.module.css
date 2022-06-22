@@ -1,0 +1,21 @@
+.cardBottom {
+    padding: 12px;
+}
+
+.optionsBtn {
+    color: #fff !important;
+    background: #6E41E2 !important;
+    border: 3px solid #FFFFFF !important;
+    border-radius: 20px !important;
+    position: absolute !important;
+    right: 17px !important;
+    top: 36% !important;
+    padding: 8px !important;
+    z-index: 9999 !important;
+}
+
+@media (max-width: 1580px) {
+    .optionsBtn {
+        top: 27% !important;
+    }
+}

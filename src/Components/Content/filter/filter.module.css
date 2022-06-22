@@ -1,0 +1,16 @@
+.FilterOptions {
+    /* display: flex;
+    justify-content: space-between; */
+    margin-top: 36px;
+}
+
+.FilterOptions form {
+    width: 60%;
+}
+
+@media (max-width: 900px) {
+    .FilterOptions form {
+        width: 100% !important;
+    } 
+}
+

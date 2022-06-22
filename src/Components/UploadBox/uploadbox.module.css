@@ -1,0 +1,25 @@
+.UploadBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 36px 115px;
+    gap: 15px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin: auto;
+    box-sizing: border-box;
+}
+
+@media (max-width: 800px) {
+    .UploadBox {
+        padding: 36px 38px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1200px){
+    .UploadBox {
+        padding: 36px 30px;
+    }
+}

@@ -1,0 +1,22 @@
+.answersListContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+
+.answerContainer {
+    width: 100%;
+    padding: 0 15px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.answerContainer.correctAnswer {
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color)
+} 

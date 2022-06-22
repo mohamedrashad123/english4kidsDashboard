@@ -1,0 +1,144 @@
+.lessonButton {
+    box-shadow: 0px 0px 10px rgb(110 65 226 / 30%) !important;
+    border-radius: 4px !important;
+    padding: 10px 20px !important;
+}
+
+.lessonData {
+    padding: 25px 0 !important;
+}
+
+.lessonContent {
+    width: 100% !important;
+    flex-basis: 80%;
+    text-align: left;
+    display: flex;
+    flex-direction: column !important;
+    gap: 46px !important;
+    align-items: flex-start;
+    padding: 40px 0;
+}
+
+.lessonImage {
+    width: 30% !important;
+    flex-basis: 30% !important;
+}
+
+.lessonQuestions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.newLessonInput {
+    width: 100%;
+}
+
+.descriptionInput {
+    width: 100%;
+    height: 162px;
+    position: relative;
+}
+
+.optionsContainer {
+    width: 40%;
+}
+
+.uploadButton {
+    padding: 0;
+    position: absolute !important;
+    left: 4px !important;
+    top: 30px !important;
+    text-transform: none !important;
+}
+
+.descriptionInput textarea {
+    resize: none;
+    width: 100%;
+    display: block;
+    background: #fff;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(51, 51, 51, 0.02);
+    border-radius: 4px;
+    padding: 40px 27px 16px 12px;
+    outline: none;
+    height: 100% !important;
+    font-family: '-apple-system', 'BlinkMacSystemFont','"Segoe UI"','Roboto','"Helvetica Neue"','Arial','sans-serif','"Apple Color Emoji"','"Segoe UI Emoji"','"Segoe UI Symbol"';
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.descriptionInput textarea::placeholder {
+    color: rgba(17, 17, 17, 0.23) !important;
+}
+
+.descriptionInput label {
+    color: rgba(17, 17, 17, 0.48);
+    display: block;
+}
+
+.questionTitleContainer {
+    width: 100%;
+    position: relative;
+}
+
+.questionTitleContainer button {
+    left: 4px !important;
+    top: 34px !important;
+    z-index: 9999 !important;
+}
+
+.questionTitleContainer input {
+    padding-top: 33px !important;
+    padding-bottom: 18px !important;
+}
+
+.answerContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.answerContainer .answerInputContainer {
+    height: 100%;
+}
+
+.answerContainer  input {
+    padding: 9px 12px !important;
+}
+
+.answerContainer button {
+    z-index: 10000;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    position: absolute;
+    right: 10px;
+    bottom: 0px;
+}
+
+@media (min-width: 577px) and (max-width: 1200px){
+    .lessonImage {
+        width: 50% !important;
+        flex-basis: 50% !important;
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1550px){
+    .lessonImage {
+        width: 40% !important;
+        flex-basis: 40% !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .lessonImage {
+        width: 100% !important;
+        flex-basis: 100% !important;
+    }
+}
+
+@media (max-width: 1200px) {
+    .optionsContainer {
+        width: 100%;
+    }
+}

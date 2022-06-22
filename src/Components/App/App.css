@@ -1,0 +1,27 @@
+.App {
+  text-align: center;
+  display: flex;
+  justify-content: flex-start;
+	align-items: flex-start;
+}
+
+@media (max-width: 775px) {
+  .App {
+    text-align: center;
+    display: block;
+    padding: 0 30px;
+  }
+}
+
+@media (max-width: 992px) {
+  .content {
+    width: 100% !important;
+    padding: 30px 56px !important;
+  }
+}
+
+@media (min-width: 750px) {
+  .content {
+    padding: 128px 56px !important;
+  }
+}

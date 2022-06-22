@@ -1,0 +1,10 @@
+.item {
+    color: #8A8A8A;
+    text-decoration: none;
+    display: block;
+}
+
+.ActiveItem {
+    color : #6E41E2 !important;
+	border-left : 6px solid #6E41E2 !important;
+}
