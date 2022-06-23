@@ -6,7 +6,7 @@ import { CssBaseline } from '@mui/material';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import NewLesson from '../NewLesson/NewLesson';
 import clsx from 'clsx';
-import { Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -23,22 +23,22 @@ function App() {
 	// const theme = useTheme();
 	return (
 		<div className="App">
-			<CssBaseline />
-			<CustomAppBar />
-			<main className={clsx(classes.content, 'content')}>
-				<Routes>
-					<Route path="/">
-						<Route path="content" element={<Content />} />
-						<Route path="lessons">
-							<Route path="new" element={<NewLesson />} />
+			<BrowserRouter>
+				<CssBaseline />
+				<CustomAppBar />
+				<main className={clsx(classes.content, 'content')}>
+					<Routes>
+						<Route path="/">
+							<Route path="content" element={<Content />} />
+							<Route path="lessons">
+								<Route path="new" element={<NewLesson />} />
+								<Route index element={<Content />} />
+							</Route>
 							<Route index element={<Content />} />
 						</Route>
-						<Route index element={<Content />} />
-					</Route>
-				</Routes>
-				{/* <NewLesson /> */}
-			</main>
-			{/* <Navbar /> */}
+					</Routes>
+				</main>
+			</BrowserRouter>
 		</div>
 	);
 }
