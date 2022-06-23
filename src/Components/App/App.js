@@ -36,6 +36,8 @@ function App() {
 							</Route>
 							<Route index element={<Content />} />
 						</Route>
+						<Route path="/content" element={<Content />} />
+						<Route path="/lessons/new" element={<NewLesson />} />
 					</Routes>
 				</main>
 			</BrowserRouter>
