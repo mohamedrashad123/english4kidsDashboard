@@ -60,7 +60,7 @@ function NewLesson() {
 			unitId,
 			title: lessonTitle,
 			description,
-			wordsInfo: wordsInfo || null,
+			words_info: wordsInfo || null,
 			video: videoLink,
 			questions: JSON.stringify(questions),
 			grammar_images: grammarImage,
