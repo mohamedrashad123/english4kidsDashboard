@@ -152,6 +152,7 @@ function NewLesson() {
 					<Grid item xs={12} lg={6} className={classes.lessonContent}>
 						<CustomTextField
 							onChange={changeLessonTitle}
+							value={lessonTitle}
 							className={classes.newLessonInput}
 							style={inputFieldStyle}
 							label="Lesson Title"
@@ -187,6 +188,7 @@ function NewLesson() {
 							<CustomTextField
 								onChange={changeWordsInfo}
 								className={classes.newLessonInput}
+								value={wordsInfo}
 								style={inputFieldStyle}
 								label="Lesson Words"
 								id="lesson-title"
@@ -196,6 +198,7 @@ function NewLesson() {
 
 						<CustomTextField
 							onChange={changeVideoLink}
+							value={videoLink}
 							className={classes.newLessonInput}
 							style={inputFieldStyle}
 							label="Youtube Link"
