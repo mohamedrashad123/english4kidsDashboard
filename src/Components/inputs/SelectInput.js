@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
@@ -36,7 +36,7 @@ const colorStyles = {
 	singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
 };
 
-export default function CustomSelectMenu({ options, changeValue, ...props }) {
+export default function CustomSelectMenu({ options, changeValue, defaultValue, ...props }) {
 	const [value, setValue] = useState(null);
 
 	const onChange = (option, { action }) => {
@@ -55,6 +55,10 @@ export default function CustomSelectMenu({ options, changeValue, ...props }) {
 			setValue({ value: string, label: string });
 		}
 	};
+
+	useEffect(() => {
+		setValue(options.find((option) => option.value === defaultValue));
+	}, [defaultValue]);
 
 	return (
 		<Select

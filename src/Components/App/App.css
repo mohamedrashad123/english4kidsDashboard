@@ -22,6 +22,7 @@
 
 @media (min-width: 750px) {
   .content {
-    padding: 128px 56px !important;
+    /* padding: 128px 56px !important; */
+    padding-left: 32px;
   }
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import classes from './Home.module.css';
@@ -8,8 +8,21 @@ import FilterOptions from './filter/Filter';
 import CardList from '../cardList/CardList';
 import { useNavigate } from 'react-router-dom';
 
+let searchTimeout = null;
 const Content = () => {
 	const navigate = useNavigate();
+	const [unitId, setUnitId] = useState('');
+	const [search, setSearch] = useState('');
+	const [gradeId, setGradeId] = useState('');
+
+	const changeUnit = (unitId) => setUnitId(unitId);
+	const changeGrade = (unitId) => setGradeId(unitId);
+	const handleSearch = (event) => {
+		clearTimeout(searchTimeout);
+		searchTimeout = setTimeout(() => {
+			setSearch(event.target.value);
+		}, 800);
+	};
 
 	const redirectToNewLesson = () => navigate('/lessons/new');
 	return (
@@ -22,9 +35,9 @@ const Content = () => {
 					</Button>
 				</Stack>
 			</header>
-			<FilterOptions />
+			<FilterOptions changeUnit={changeUnit} handleSearch={handleSearch} changeGrade={changeGrade} />
 			<div style={{ marginTop: '50px' }}>
-				<CardList />
+				<CardList gradeId={gradeId} unitId={unitId} search={search} />
 			</div>
 		</div>
 	);

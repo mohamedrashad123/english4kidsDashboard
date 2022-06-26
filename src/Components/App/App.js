@@ -2,8 +2,7 @@ import './App.css';
 import Content from '../Content/Content';
 import CustomAppBar from '../Appbar/Appbar';
 import { CssBaseline } from '@mui/material';
-// import Navbar from "./Components/navbar/Navbar";
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import NewLesson from '../NewLesson/NewLesson';
 import clsx from 'clsx';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -15,12 +14,12 @@ const useStyles = makeStyles((theme) => ({
 		width: `calc(100% - ${drawerWidth}px)`,
 		padding: theme.spacing(16, 7),
 		backgroundColor: '#FAFAFA',
+		height: '100Vh',
 	},
 }));
 
 function App() {
 	const classes = useStyles();
-	// const theme = useTheme();
 	return (
 		<div className="App">
 			<BrowserRouter>
@@ -31,6 +30,7 @@ function App() {
 						<Route path="/">
 							<Route path="content" element={<Content />} />
 							<Route path="lessons">
+								<Route path=":lessonId" element={<NewLesson />} />
 								<Route path="new" element={<NewLesson />} />
 								<Route index element={<Content />} />
 							</Route>

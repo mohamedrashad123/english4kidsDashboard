@@ -1,15 +1,25 @@
 import { Grid } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import CardItem from '../cardItem/CardItem';
+import lessonController from '../../controllers/lessons/lessonController';
 
-const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+function CardList({ gradeId, unitId, search }) {
+	const [lessons, setLessons] = useState([]);
 
-function CardList({}) {
+	const getLessons = async () => {
+		const lessonList = await lessonController.getListOfLessons(gradeId, unitId, search);
+		setLessons(lessonList);
+	};
+
+	useEffect(() => {
+		getLessons();
+	}, [gradeId, unitId, search]);
+
 	return (
 		<Grid container spacing={2}>
-			{items.map((i, index) => (
+			{lessons.map((item, index) => (
 				<Grid item xs={12} sm={6} lg={4} key={index}>
-					<CardItem />
+					<CardItem item={item} />
 				</Grid>
 			))}
 		</Grid>

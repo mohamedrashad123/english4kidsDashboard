@@ -5,14 +5,7 @@ import { IconButton } from '@material-ui/core';
 import { DeleteIcon, EditIcon } from '../../svg';
 import clsx from 'clsx';
 
-// const answers = [
-// 	{ ID: 1, title: 'First answer' },
-// 	{ ID: 2, title: 'Second answer' },
-// 	{ ID: 3, title: 'Third answer' },
-// 	{ ID: 4, title: 'Fourth answer' },
-// ];
-
-function AnswersList({ answers, changeCorrectAnswer }) {
+function AnswersList({ answers, changeCorrectAnswer, editAnswer, deleteAnswer }) {
 	return (
 		<div className={classes.answersListContainer}>
 			<h6 className="h6" style={{ color: 'rgba(17, 17, 17, 0.48)' }}>
@@ -33,10 +26,16 @@ function AnswersList({ answers, changeCorrectAnswer }) {
 							>
 								<span>{answer.title}</span>
 								<div>
-									<IconButton aria-label="edit">
+									<IconButton aria-label="edit" onClick={() => editAnswer(index)}>
 										<EditIcon color="#6E41E2" />
 									</IconButton>
-									<IconButton aria-label="delete">
+									<IconButton
+										aria-label="delete"
+										onClick={(e) => {
+											e.stopPropagation();
+											deleteAnswer(index);
+										}}
+									>
 										<DeleteIcon color="#C43939" />
 									</IconButton>
 								</div>

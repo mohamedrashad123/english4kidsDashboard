@@ -9,23 +9,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { IconButton } from '@material-ui/core';
 import { DeleteIcon, EditIcon } from '../../svg';
-// import { DeleteIcon, EditIcon } from '../../svg';
 
-function createData(ID, title, correctAnswer) {
-	return { ID, title, correctAnswer };
-}
-
-// const questions = [
-// 	createData(1, 'How to spell animals words How to spell animals words', 'The same way'),
-// 	createData(2, 'How to spell animals words How to spell animals words', 'The same way'),
-// 	createData(3, 'How to spell animals words How to spell animals words', 'The same way'),
-// 	createData(4, 'How to spell animals words How to spell animals words', 'The same way'),
-// 	createData(5, 'How to spell animals words How to spell animals words', 'The same way'),
-// 	createData(6, 'How to spell animals words How to spell animals words', 'The same way'),
-// 	createData(7, 'How to spell animals words How to spell animals words', 'The same way'),
-// ];
-
-function QuestionsList({ questions }) {
+function QuestionsList({ questions, deleteQuetion, editQuestion }) {
 	return (
 		<div className={classes.questionsListContainer}>
 			<h6 className="h6" style={{ color: 'rgba(17, 17, 17, 0.48)' }}>
@@ -54,10 +39,10 @@ function QuestionsList({ questions }) {
 											{question.answers.find((answer) => answer.isCorrect === true)?.title || ''}
 										</TableCell>
 										<TableCell align="right">
-											<IconButton aria-label="edit">
+											<IconButton aria-label="edit" onClick={() => editQuestion(index)}>
 												<EditIcon color="#6E41E2" />
 											</IconButton>
-											<IconButton aria-label="delete">
+											<IconButton aria-label="delete" onClick={() => deleteQuetion(index)}>
 												<DeleteIcon color="#C43939" />
 											</IconButton>
 										</TableCell>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import CustomSelectMenu from '../inputs/SelectInput';
@@ -12,6 +12,7 @@ import AnswersList from './AnswersList/AnswersList';
 import { SaveIcon, UploadBoxIcon, UploadButtonIcon } from '../svg';
 import newLessonController from '../../controllers/lessons/lessonController';
 import { uploadImage } from '../../controllers/uploads/uploadImageController';
+import { useParams } from 'react-router-dom';
 
 const gradeOptions = [
 	{ value: 1, label: 'grade 1' },
@@ -45,6 +46,7 @@ const inputFieldStyle = {
 };
 
 function NewLesson() {
+	const { lessonId } = useParams();
 	const [unitId, setUnitId] = useState(null);
 	const [gradeId, setGradeId] = useState(null);
 	const [lessonTitle, setLessonTitle] = useState('');
@@ -59,8 +61,24 @@ function NewLesson() {
 	const [wordImage, setWordImage] = useState('');
 	const [questionImage, setQuestionImage] = useState('');
 	const [lessonImage, setLessonImage] = useState(null);
+	const [editAnswerIndex, setEditAnswerIndex] = useState(null);
+	const [editQuestionIndex, setEditQuestionIndex] = useState(null);
 
-	const createLesson = async () => {
+	const createLesson = async (lessonData) => {
+		const lessonId = await newLessonController.createNewLesson(lessonData);
+		if (lessonId) return lessonId;
+		return false;
+	};
+
+	const editLesson = async (lessonData) => {
+		const result = await newLessonController.updateLesson(lessonData, lessonId);
+
+		if (result) return result;
+		return false;
+	};
+
+	const saveLesson = async () => {
+		let result = null;
 		const lessonData = {
 			gradeId,
 			unitId,
@@ -74,22 +92,40 @@ function NewLesson() {
 			lessonImage,
 		};
 
-		const lessonId = await newLessonController.createNewLesson(lessonData);
+		if (lessonId) result = await editLesson(lessonData);
+		else result = await createLesson(lessonData);
 
-		if (lessonId) {
-			setAnswers([]);
-			setQuestions([]);
-			setQuestionTitle('');
-			setLessonDiscription('');
-			setQuestionImage('');
-			setGrammarImage('');
-			setLessonImage(null);
-			setWordImage('');
-			setWordsInfo('');
-			setvideoLink('');
-			setAnswerTitle('');
-			console.log('lesson created successfully');
+		if (result) {
+			if (lessonId) {
+				setLessonTitle('');
+				setAnswers([]);
+				setQuestions([]);
+				setQuestionTitle('');
+				setLessonDiscription('');
+				setQuestionImage('');
+				setGrammarImage('');
+				setLessonImage(null);
+				setWordImage('');
+				setWordsInfo('');
+				setvideoLink('');
+				setAnswerTitle('');
+				console.log('lesson created successfully');
+			}
 		}
+	};
+
+	const editQuestion = (index) => {
+		const question = questions[index];
+
+		setQuestionTitle(question.title);
+		setAnswers(question.answers);
+		setQuestionImage(question.image);
+		setEditQuestionIndex(index);
+	};
+
+	const editAnswer = (i) => {
+		setAnswerTitle(answers[i].title);
+		setEditAnswerIndex(i);
 	};
 
 	const changeLessonTitle = (event) => setLessonTitle(event.target.value);
@@ -99,15 +135,32 @@ function NewLesson() {
 	const changeAnswerTitle = (event) => setAnswerTitle(event.target.value);
 	const changeQuestionTitle = (event) => setQuestionTitle(event.target.value);
 	const addNewAnswer = () => {
-		setAnswers([...answers, { title: answerTitle, isCorrect: false }]);
+		if (editAnswerIndex !== null) {
+			const answersClone = [...answers];
+			answersClone[editAnswerIndex].title = answerTitle;
+			setAnswers(answersClone);
+		} else {
+			setAnswers([...answers, { title: answerTitle, isCorrect: false }]);
+		}
 		setAnswerTitle('');
+		setEditAnswerIndex(null);
 	};
 
 	const addNewQuestion = () => {
-		setQuestions([...questions, { title: questionTitle, answers, image: questionImage || null }]);
+		if (editQuestionIndex === null) {
+			setQuestions([...questions, { title: questionTitle, answers, image: questionImage || null }]);
+		} else {
+			const questionsClone = [...questions];
+			questionsClone[editQuestionIndex].title = questionTitle;
+			questionsClone[editQuestionIndex].answers = answers;
+			questionsClone[editQuestionIndex].image = questionImage;
+
+			setQuestions(questionsClone);
+		}
 		setAnswers([]);
 		setQuestionTitle('');
 		setAnswerTitle('');
+		setEditQuestionIndex(null);
 	};
 
 	const changeInputFileImage = async (event) => {
@@ -127,8 +180,19 @@ function NewLesson() {
 		}
 	};
 
-	const changeLessonImage = (event) => setLessonImage(event.target.files[0]);
+	const deleteAnswer = (index) => {
+		const answersClone = [...answers];
+		answersClone.splice(index, 1);
+		setAnswers(answersClone);
+	};
 
+	const deleteQuetion = (index) => {
+		const questionsClone = [...questions];
+		questionsClone.splice(index, 1);
+		setQuestions(questionsClone);
+	};
+
+	const changeLessonImage = (event) => setLessonImage(event.target.files[0]);
 	const changeCorrectAnswer = (index) => {
 		const answersClone = [...answers];
 		answersClone[index].isCorrect = true;
@@ -136,12 +200,34 @@ function NewLesson() {
 		setAnswers(answersClone);
 	};
 
+	const getLessonData = async () => {
+		const lessonData = await newLessonController.getDetails(lessonId);
+		if (lessonData) {
+			setGradeId(lessonData.gradeId);
+			setUnitId(lessonData.unitId);
+			setLessonTitle(lessonData.title);
+			setQuestions(lessonData.questions);
+			setLessonDiscription(lessonData.description);
+			setQuestionImage('');
+			setGrammarImage(lessonData.grammar_images);
+			setWordImage(lessonData.words_images);
+			setWordsInfo(lessonData.words_info);
+			setvideoLink(lessonData.video);
+		}
+	};
+
+	useEffect(() => {
+		if (lessonId) {
+			getLessonData();
+		}
+	}, [lessonId]);
+
 	return (
 		<div style={{ width: '100%' }}>
 			<Stack spacing={1} direction={{ xs: 'column', md: 'row' }} justifyContent="space-between">
 				<h2 className="h1">Add New Lesson</h2>
 				<Button
-					onClick={createLesson}
+					onClick={saveLesson}
 					variant="contained"
 					className={clsx('primaryButton', classes.lessonButton)}
 					startIcon={<SaveIcon color="#fff" fontSize="inherit" />}
@@ -151,8 +237,8 @@ function NewLesson() {
 			</Stack>
 			<section className={classes.lessonData}>
 				<Stack spacing={3} className={classes.optionsContainer} direction={{ xs: 'column', sm: 'row' }}>
-					<CustomSelectMenu changeValue={setGradeId} options={gradeOptions} boxShadow="0px 4px 16px rgba(51, 51, 51, 0.02)" />
-					<CustomSelectMenu changeValue={setUnitId} options={unitOptions} boxShadow="0px 4px 16px rgba(51, 51, 51, 0.02)" />
+					<CustomSelectMenu defaultValue={gradeId} changeValue={setGradeId} options={gradeOptions} boxShadow="0px 4px 16px rgba(51, 51, 51, 0.02)" />
+					<CustomSelectMenu defaultValue={unitId} changeValue={setUnitId} options={unitOptions} boxShadow="0px 4px 16px rgba(51, 51, 51, 0.02)" />
 				</Stack>
 				<Grid container spacing={3} justifyContent="space-between" style={{ paddingTop: '30px' }}>
 					<Grid item xs={12} lg={6} className={classes.lessonContent}>
@@ -179,6 +265,7 @@ function NewLesson() {
 							</InputLabel>
 							<TextareaAutosize
 								onChange={changeLessonDescription}
+								value={description}
 								id="description"
 								aria-label="lesson description"
 								placeholder="eg: How to spell animals words"
@@ -254,7 +341,7 @@ function NewLesson() {
 						</div>
 						<div className={classes.answerContainer}>
 							<Button variant="outlined" onClick={addNewAnswer}>
-								add
+								{editAnswerIndex !== null ? 'save' : 'add'}
 							</Button>
 							<CustomTextField
 								onKeyDown={(event) => {
@@ -277,14 +364,16 @@ function NewLesson() {
 							className={clsx('primaryButton', classes.lessonButton)}
 							startIcon={<SaveIcon color="#fff" fontSize="inherit" />}
 						>
-							Add another question
+							{editQuestionIndex === null ? 'Add another question' : 'save question'}
 						</Button>
 					</Grid>
 					<Grid className={classes.answersSection} item xs={12} lg={4} style={{ width: '100%', flexBasis: '100%' }}>
-						{answers.length ? <AnswersList answers={answers} changeCorrectAnswer={changeCorrectAnswer} /> : null}
+						{answers.length ? (
+							<AnswersList answers={answers} editAnswer={editAnswer} deleteAnswer={deleteAnswer} changeCorrectAnswer={changeCorrectAnswer} />
+						) : null}
 					</Grid>
 				</Grid>
-				{questions.length ? <QuestionsList questions={questions} /> : null}
+				{questions.length ? <QuestionsList questions={questions} deleteQuetion={deleteQuetion} editQuestion={editQuestion} /> : null}
 			</section>
 		</div>
 	);
